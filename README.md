@@ -12,30 +12,33 @@ A Supabase dogfooding app for publishing a curated family activity calendar, let
 
 ## Local Setup
 
-1. Install dependencies:
+1. Install [mise](https://mise.jdx.dev/), then install the pinned runtime and project dependencies:
 
 ```bash
-npm install
+mise install
+mise run setup
 ```
+
+All project commands are defined as mise tasks. Run `mise tasks` to list them.
 
 2. Create a Supabase project at https://supabase.com/dashboard.
 
 3. Log in to Supabase from the CLI:
 
 ```bash
-npm run supabase:login
+mise run supabase:login
 ```
 
 4. Link this local project to your Supabase project:
 
 ```bash
-npm run supabase:link -- --project-ref your-project-ref
+mise run supabase:link -- --project-ref your-project-ref
 ```
 
 5. Push the migrations to Supabase:
 
 ```bash
-npm run db:push
+mise run db:push
 ```
 
 6. Copy `.env.example` to `.env.local` and fill in your project values:
@@ -56,13 +59,13 @@ http://localhost:3000/auth/callback
 8. Start the app:
 
 ```bash
-npm run dev
+mise run dev
 ```
 
 If Supabase env vars are not loading, run this non-secret check. It prints only whether each value is present and its character length:
 
 ```bash
-npm run check-env
+mise run check-env
 ```
 
 9. Sign in once at `/login` so your `profiles` row is created.
@@ -82,20 +85,22 @@ where id = (select id from auth.users where email = 'you@example.com');
 Create new migrations instead of editing already-applied migrations:
 
 ```bash
-npm run migration:new -- add_activity_images
+mise run migration:new -- add_activity_images
 ```
 
 Then edit the generated file in `supabase/migrations/` and push it:
 
 ```bash
-npm run db:push
+mise run db:push
 ```
 
 Useful CLI commands:
 
 ```bash
-npm run db:diff
-npm run db:reset
+mise run db:diff
+mise run db:reset
+mise run supabase:start  # local services; requires Docker
+mise run supabase:stop
 ```
 
 ## Routes

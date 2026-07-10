@@ -1,0 +1,84 @@
+min_version = "2024.9.5"
+
+[tools]
+node = "22.23.1"
+
+[tasks.install]
+description = "Install locked npm dependencies"
+run = "npm ci"
+sources = ["package.json", "package-lock.json"]
+outputs = ["node_modules/.package-lock.json"]
+
+[tasks.setup]
+description = "Install all project tools and dependencies"
+depends = ["install"]
+
+[tasks.dev]
+description = "Run the Next.js development server"
+depends = ["install"]
+run = "npm exec -- next dev"
+
+[tasks.build]
+description = "Build the production application"
+depends = ["install"]
+run = "npm exec -- next build"
+
+[tasks.start]
+description = "Run the production application"
+depends = ["install"]
+run = "npm exec -- next start"
+
+[tasks.lint]
+description = "Lint the application"
+depends = ["install"]
+run = "npm exec -- next lint"
+
+[tasks.check-env]
+description = "Check that required environment variables are present"
+depends = ["install"]
+run = "node scripts/check-env.mjs"
+
+[tasks."supabase:login"]
+description = "Log in to the Supabase CLI"
+depends = ["install"]
+run = "npm exec -- supabase login"
+
+[tasks."supabase:link"]
+description = "Link this checkout to a remote Supabase project"
+depends = ["install"]
+run = "npm exec -- supabase link"
+
+[tasks."supabase:start"]
+description = "Start the local Supabase services (requires Docker)"
+depends = ["install"]
+run = "npm exec -- supabase start"
+
+[tasks."supabase:stop"]
+description = "Stop the local Supabase services"
+depends = ["install"]
+run = "npm exec -- supabase stop"
+
+[tasks."supabase:status"]
+description = "Show local Supabase service status"
+depends = ["install"]
+run = "npm exec -- supabase status"
+
+[tasks."db:push"]
+description = "Push pending migrations to the linked database"
+depends = ["install"]
+run = "npm exec -- supabase db push"
+
+[tasks."db:diff"]
+description = "Diff the local database schema"
+depends = ["install"]
+run = "npm exec -- supabase db diff"
+
+[tasks."db:reset"]
+description = "Reset the local database and apply all migrations"
+depends = ["install"]
+run = "npm exec -- supabase db reset"
+
+[tasks."migration:new"]
+description = "Create a new migration; pass its name as an argument"
+depends = ["install"]
+run = "npm exec -- supabase migration new"

@@ -17,7 +17,7 @@ export async function cloneTemplate(formData: FormData) {
 
   const templateId = String(formData.get("template_id") ?? "");
   const familyName = String(formData.get("family_name") ?? "").trim();
-  const title = familyName ? `${familyName} Activity Calendar` : "My Family Activity Calendar";
+  const title = familyName ? `${familyName} Seasonal Activity Calendar` : "My Seasonal Activity Calendar";
   const shareSlug = `${slugify(title) || "calendar"}-${crypto.randomUUID().slice(0, 8)}`;
 
   const { data: template, error: templateError } = await supabase
@@ -46,7 +46,7 @@ export async function cloneTemplate(formData: FormData) {
     .single();
 
   if (calendarError || !calendar) {
-    throw new Error(calendarError?.message ?? "Could not create family calendar.");
+    throw new Error(calendarError?.message ?? "Could not create seasonal calendar.");
   }
 
   const { data: activities, error: activitiesError } = await supabase

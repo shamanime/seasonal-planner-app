@@ -33,7 +33,7 @@ export default async function SharedCalendarPage({ params }: { params: Promise<{
   return (
     <main className="mx-auto max-w-6xl px-5 pb-16">
       <section className="py-10">
-        <p className="text-sm font-bold uppercase tracking-[0.24em] text-leaf">Shared family calendar</p>
+        <p className="text-sm font-bold uppercase tracking-[0.24em] text-leaf">Shared seasonal calendar</p>
         <h1 className="mt-3 font-serif text-5xl font-semibold md:text-6xl">{calendar.title}</h1>
         <p className="mt-4 max-w-2xl text-lg leading-8 text-ink/70">A simple seasonal plan for easy outings and family coordination.</p>
         <div className="no-print mt-6 flex flex-wrap gap-3">

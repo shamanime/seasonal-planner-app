@@ -36,12 +36,12 @@ export default async function Home() {
     <main className="mx-auto max-w-6xl px-5 pb-16">
       <section className="grid gap-8 py-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
         <div>
-          <p className="text-sm font-bold uppercase tracking-[0.24em] text-leaf">Niagara family field guide</p>
+          <p className="text-sm font-bold uppercase tracking-[0.24em] text-leaf">A seasonal guide for every family</p>
           <h1 className="mt-4 max-w-3xl font-serif text-5xl font-semibold leading-[1.02] text-ink md:text-7xl">
             Seasonal plans you can actually use.
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-ink/75">
-            Browse a curated family activity calendar, make a private copy, customize the notes for your household, and share a clean link with relatives or a kitchen tablet.
+            Start with a curated seasonal activity calendar, then make a personal copy and tailor the activities, locations, and notes to wherever your family lives.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <a href="#calendar" className="rounded-full bg-ink px-5 py-3 text-sm font-bold text-white shadow-card hover:bg-black">
@@ -62,9 +62,9 @@ export default async function Home() {
         <form action={cloneTemplate} className="rounded-[2rem] border border-white/70 bg-white/80 p-6 shadow-card backdrop-blur">
           <input type="hidden" name="template_id" value={template?.id ?? ""} />
           <p className="text-sm font-bold uppercase tracking-[0.2em] text-peach">Make it yours</p>
-          <h2 className="mt-3 font-serif text-3xl font-semibold">Create a family copy</h2>
+          <h2 className="mt-3 font-serif text-3xl font-semibold">Create your personal calendar</h2>
           <p className="mt-3 text-sm leading-6 text-ink/70">
-            Your copy starts with these activities, then you can hide, edit, favorite, and add your own plans.
+            Use this template as a starting point, then hide, edit, favorite, and add activities near you.
           </p>
           <label className="mt-5 block text-sm font-bold" htmlFor="family_name">
             Family name
@@ -72,11 +72,11 @@ export default async function Home() {
           <input
             id="family_name"
             name="family_name"
-            placeholder="The Venerandos"
+            placeholder="The Smiths"
             className="mt-2 w-full rounded-2xl border border-ink/10 bg-white px-4 py-3 outline-none ring-leaf/30 focus:ring-4"
           />
           <button className="mt-5 w-full rounded-2xl bg-leaf px-5 py-3 font-bold text-white shadow-sm hover:bg-leaf/90" type="submit">
-            {user ? "Clone this calendar" : "Sign in and clone"}
+            {user ? "Clone & edit this calendar" : "Sign in and clone"}
           </button>
         </form>
       </section>

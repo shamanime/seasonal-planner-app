@@ -25,7 +25,7 @@ export default async function DashboardPage() {
       <section className="flex flex-wrap items-end justify-between gap-5 py-10">
         <div>
           <p className="text-sm font-bold uppercase tracking-[0.24em] text-leaf">Dashboard</p>
-          <h1 className="mt-3 font-serif text-5xl font-semibold">Your family calendars</h1>
+          <h1 className="mt-3 font-serif text-5xl font-semibold">Your seasonal calendars</h1>
         </div>
         <form action={signOut}>
           <button className="rounded-full bg-white px-5 py-3 text-sm font-bold shadow-card" type="submit">
@@ -61,7 +61,7 @@ export default async function DashboardPage() {
               </article>
             ))
           ) : (
-            <div className="motion-card rounded-[1.75rem] bg-white/80 p-8 shadow-card">No family calendars yet. Create your first copy.</div>
+            <div className="motion-card rounded-[1.75rem] bg-white/80 p-8 shadow-card">No seasonal calendars yet. Create your first copy.</div>
           )}
         </section>
 

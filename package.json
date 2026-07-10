@@ -1,5 +1,5 @@
 {
-  "name": "family-activity-calendar",
+  "name": "seasonal-activity-calendar",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -17,7 +17,7 @@
     "eslint": "^9.22.0",
     "eslint-config-next": "^15.2.3",
     "postcss": "^8.5.3",
-    "supabase": "^2.108.0",
+    "supabase": "^2.109.1",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.8.2"
   }

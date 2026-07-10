@@ -8,8 +8,8 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 const lora = Lora({ subsets: ["latin"], variable: "--font-serif" });
 
 export const metadata: Metadata = {
-  title: "Family Activity Calendar",
-  description: "A shareable seasonal activity calendar for families.",
+  title: "Seasonal Activity Calendar",
+  description: "A customizable seasonal activity calendar for families everywhere.",
 };
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -23,7 +23,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
       <body className="font-sans antialiased">
         <header className="no-print mx-auto flex max-w-6xl items-center justify-between px-5 py-5">
           <Link href="/" className="font-serif text-xl font-semibold tracking-tight text-ink">
-            Family Activity Calendar
+            Seasonal Activity Calendar
           </Link>
           <nav className="flex items-center gap-3 text-sm font-medium">
             {user ? (

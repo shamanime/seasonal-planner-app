@@ -1,6 +1,6 @@
-# Family Activity Calendar
+# Seasonal Activity Calendar
 
-A Supabase dogfooding app for publishing a curated family activity calendar, letting users clone it, customize their own family copy, and share a kiosk-friendly link.
+A Supabase dogfooding app for publishing a curated seasonal activity calendar, letting families anywhere clone it, customize a personal copy for their region, and share a kiosk-friendly link.
 
 ## Stack
 
@@ -107,8 +107,8 @@ mise run supabase:stop
 
 - `/` public calendar template and clone CTA
 - `/login` Supabase magic-link sign in
-- `/dashboard` user's family calendars
-- `/calendar/[id]/edit` owner-only family calendar editor
+- `/dashboard` user's seasonal calendars
+- `/calendar/[id]/edit` owner-only seasonal calendar editor
 - `/c/[slug]` public shared calendar view
 - `/c/[slug]/kiosk` kiosk-friendly read-only view
 - `/admin` admin editor for the main template
@@ -117,9 +117,9 @@ mise run supabase:stop
 
 - RLS is enabled on all app tables.
 - Public users can read only published templates and public shared calendars.
-- Authenticated users can create and edit only their own family calendars.
+- Authenticated users can create and edit only their own seasonal calendars.
 - Admin access is controlled by `profiles.role = 'admin'`.
-- Existing family calendar copies do not change when the admin edits the main template.
+- Existing personal calendar copies do not change when the admin edits the main template.
 
 ## Later Dogfooding Ideas
 

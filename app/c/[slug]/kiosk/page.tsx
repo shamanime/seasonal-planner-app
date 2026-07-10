@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { groupActivitiesBySeason, type Activity, type Season } from "@/lib/calendar";
+import { activityStatusLabels, getActivityStatus, groupActivitiesBySeason, type Activity, type Season } from "@/lib/calendar";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function KioskPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -21,7 +21,7 @@ export default async function KioskPage({ params }: { params: Promise<{ slug: st
     supabase.from("seasons").select("id, name, emoji, sort_order").order("sort_order"),
     supabase
       .from("family_activities")
-      .select("id, season_id, title, date_label, description, notes, locations, tags, sort_order, is_favorite")
+      .select("id, season_id, title, date_label, description, notes, locations, tags, sort_order, is_favorite, status")
       .eq("calendar_id", calendar.id)
       .eq("is_hidden", false)
       .order("sort_order"),
@@ -43,17 +43,24 @@ export default async function KioskPage({ params }: { params: Promise<{ slug: st
                 {season.emoji} {season.name}
               </h2>
               <div className="mt-5 space-y-4">
-                {seasonActivities.map((activity) => (
-                  <article key={activity.id} className="rounded-[1.5rem] bg-white p-4">
+                {seasonActivities.map((activity) => {
+                  const status = getActivityStatus(activity.status);
+
+                  return (
+                  <article key={activity.id} className={`rounded-[1.5rem] bg-white p-4 ${status !== "planned" ? "opacity-70" : ""}`}>
                     <p className="text-xs font-bold uppercase tracking-[0.18em] text-leaf">{activity.date_label}</p>
-                    <h3 className="mt-2 font-serif text-2xl font-semibold">
-                      {activity.title}
-                      {activity.is_favorite ? <span className="ml-2 text-peach">★</span> : null}
-                    </h3>
+                    <div className="mt-2 flex items-start justify-between gap-3">
+                      <h3 className="font-serif text-2xl font-semibold">
+                        {activity.title}
+                        {activity.is_favorite ? <span className="ml-2 text-peach">★</span> : null}
+                      </h3>
+                      {status !== "planned" ? <span className="rounded-full bg-ink px-3 py-1 text-xs font-bold uppercase tracking-wide text-white">{activityStatusLabels[status]}</span> : null}
+                    </div>
                     {activity.notes?.[0] ? <p className="mt-2 text-sm leading-6 text-ink/72">{activity.notes[0]}</p> : null}
                     {activity.locations?.[0] ? <p className="mt-3 text-sm font-bold">{activity.locations[0]}</p> : null}
                   </article>
-                ))}
+                  );
+                })}
               </div>
             </section>
           ))}

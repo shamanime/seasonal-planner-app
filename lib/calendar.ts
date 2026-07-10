@@ -18,7 +18,25 @@ export type Activity = {
   is_featured?: boolean | null;
   is_hidden?: boolean | null;
   is_favorite?: boolean | null;
+  status?: ActivityStatus | null;
 };
+
+export type ActivityStatus = "planned" | "completed" | "skipped" | "expired";
+
+export const activityStatusLabels: Record<ActivityStatus, string> = {
+  planned: "Planned",
+  completed: "Done",
+  skipped: "Skipping",
+  expired: "Season passed",
+};
+
+export function getActivityStatus(value: unknown): ActivityStatus {
+  if (value === "completed" || value === "skipped" || value === "expired") {
+    return value;
+  }
+
+  return "planned";
+}
 
 export function groupActivitiesBySeason<T extends Activity>(seasons: Season[], activities: T[]) {
   return seasons

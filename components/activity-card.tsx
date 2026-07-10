@@ -1,8 +1,11 @@
-import type { Activity } from "@/lib/calendar";
+import { activityStatusLabels, getActivityStatus, type Activity } from "@/lib/calendar";
 
 export function ActivityCard({ activity }: { activity: Activity }) {
+  const status = getActivityStatus(activity.status);
+  const isInactive = status !== "planned";
+
   return (
-    <article className="rounded-[1.75rem] border border-white/70 bg-white/78 p-5 shadow-card backdrop-blur">
+    <article className={`rounded-[1.75rem] border border-white/70 bg-white/78 p-5 shadow-card backdrop-blur ${isInactive ? "opacity-75" : ""}`}>
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           {activity.date_label ? <p className="text-sm font-bold uppercase tracking-[0.18em] text-leaf">{activity.date_label}</p> : null}
@@ -11,6 +14,11 @@ export function ActivityCard({ activity }: { activity: Activity }) {
             {activity.is_featured || activity.is_favorite ? <span className="ml-2 text-peach">★</span> : null}
           </h3>
         </div>
+        {status !== "planned" ? (
+          <span className="rounded-full bg-ink px-3 py-1 text-xs font-bold uppercase tracking-wide text-white">
+            {activityStatusLabels[status]}
+          </span>
+        ) : null}
       </div>
       {activity.description ? <p className="mt-3 text-base leading-7 text-ink/78">{activity.description}</p> : null}
       {activity.notes?.length ? (

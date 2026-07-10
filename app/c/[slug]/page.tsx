@@ -22,7 +22,7 @@ export default async function SharedCalendarPage({ params }: { params: Promise<{
     supabase.from("seasons").select("id, name, emoji, sort_order").order("sort_order"),
     supabase
       .from("family_activities")
-      .select("id, season_id, title, date_label, description, notes, locations, tags, sort_order, is_favorite")
+      .select("id, season_id, title, date_label, description, notes, locations, tags, sort_order, is_favorite, status")
       .eq("calendar_id", calendar.id)
       .eq("is_hidden", false)
       .order("sort_order"),

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { cloneTemplate, signOut } from "@/app/actions";
+import { DeleteCalendarButton } from "@/components/delete-calendar-button";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function DashboardPage() {
@@ -49,6 +50,9 @@ export default async function DashboardPage() {
                   <Link className="rounded-full bg-white px-4 py-2 text-sm font-bold shadow-sm" href={`/c/${calendar.share_slug}/kiosk`}>
                     Kiosk
                   </Link>
+                </div>
+                <div className="mt-4">
+                  <DeleteCalendarButton calendarId={calendar.id} title={calendar.title} />
                 </div>
               </article>
             ))

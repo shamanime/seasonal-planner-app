@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { splitLines } from "@/lib/calendar";
+import { getActivityStatus, splitLines } from "@/lib/calendar";
 import { createClient } from "@/lib/supabase/server";
 
 async function requireUser() {
@@ -37,6 +37,7 @@ export async function updateCalendar(formData: FormData) {
   }
 
   revalidatePath(`/calendar/${id}/edit`);
+  redirect(`/calendar/${id}/edit`);
 }
 
 export async function updateActivity(formData: FormData) {
@@ -56,6 +57,7 @@ export async function updateActivity(formData: FormData) {
       sort_order: Number(formData.get("sort_order") ?? 0),
       is_hidden: formData.get("is_hidden") === "on",
       is_favorite: formData.get("is_favorite") === "on",
+      status: getActivityStatus(formData.get("status")),
     })
     .eq("id", id)
     .eq("calendar_id", calendarId);
@@ -65,6 +67,7 @@ export async function updateActivity(formData: FormData) {
   }
 
   revalidatePath(`/calendar/${calendarId}/edit`);
+  redirect(`/calendar/${calendarId}/edit`);
 }
 
 export async function addActivity(formData: FormData) {
@@ -81,6 +84,7 @@ export async function addActivity(formData: FormData) {
     locations: splitLines(formData.get("locations")),
     tags: splitLines(formData.get("tags")),
     sort_order: Number(formData.get("sort_order") ?? 100),
+    status: getActivityStatus(formData.get("status")),
   });
 
   if (error) {
@@ -88,6 +92,7 @@ export async function addActivity(formData: FormData) {
   }
 
   revalidatePath(`/calendar/${calendarId}/edit`);
+  redirect(`/calendar/${calendarId}/edit`);
 }
 
 export async function deleteActivity(formData: FormData) {
@@ -102,4 +107,5 @@ export async function deleteActivity(formData: FormData) {
   }
 
   revalidatePath(`/calendar/${calendarId}/edit`);
+  redirect(`/calendar/${calendarId}/edit`);
 }

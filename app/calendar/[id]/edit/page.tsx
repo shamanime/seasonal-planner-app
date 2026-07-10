@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { addActivity, deleteActivity, updateActivity, updateCalendar } from "./actions";
-import { groupActivitiesBySeason, type Activity, type Season } from "@/lib/calendar";
+import { activityStatusLabels, groupActivitiesBySeason, type Activity, type ActivityStatus, type Season } from "@/lib/calendar";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function EditCalendarPage({ params }: { params: Promise<{ id: string }> }) {
@@ -33,7 +33,7 @@ export default async function EditCalendarPage({ params }: { params: Promise<{ i
     supabase.from("seasons").select("id, name, emoji, sort_order").order("sort_order"),
     supabase
       .from("family_activities")
-      .select("id, season_id, title, date_label, description, notes, locations, tags, sort_order, is_hidden, is_favorite")
+      .select("id, season_id, title, date_label, description, notes, locations, tags, sort_order, is_hidden, is_favorite, status")
       .eq("calendar_id", id)
       .order("sort_order"),
   ]);
@@ -107,6 +107,16 @@ export default async function EditCalendarPage({ params }: { params: Promise<{ i
                     <input name="date_label" defaultValue={activity.date_label ?? ""} className="mt-2 w-full rounded-2xl border border-ink/10 bg-white px-4 py-3" />
                   </label>
                   <label className="mt-4 block text-sm font-bold">
+                    Status
+                    <select name="status" defaultValue={activity.status ?? "planned"} className="mt-2 w-full rounded-2xl border border-ink/10 bg-white px-4 py-3">
+                      {Object.entries(activityStatusLabels).map(([value, label]) => (
+                        <option key={value} value={value}>
+                          {label}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <label className="mt-4 block text-sm font-bold">
                     Description
                     <textarea name="description" defaultValue={activity.description ?? ""} rows={2} className="mt-2 w-full rounded-2xl border border-ink/10 bg-white px-4 py-3" />
                   </label>
@@ -159,6 +169,13 @@ export default async function EditCalendarPage({ params }: { params: Promise<{ i
             </select>
             <input name="title" required placeholder="Activity title" className="w-full rounded-2xl border border-white/20 bg-white/10 px-4 py-3 placeholder:text-white/50" />
             <input name="date_label" placeholder="Timing" className="w-full rounded-2xl border border-white/20 bg-white/10 px-4 py-3 placeholder:text-white/50" />
+            <select name="status" defaultValue="planned" className="w-full rounded-2xl border border-white/20 bg-white/10 px-4 py-3">
+              {Object.entries(activityStatusLabels).map(([value, label]) => (
+                <option key={value} value={value as ActivityStatus} className="text-ink">
+                  {label}
+                </option>
+              ))}
+            </select>
             <textarea name="description" placeholder="Description" rows={3} className="w-full rounded-2xl border border-white/20 bg-white/10 px-4 py-3 placeholder:text-white/50" />
             <textarea name="notes" placeholder="Notes, one per line" rows={3} className="w-full rounded-2xl border border-white/20 bg-white/10 px-4 py-3 placeholder:text-white/50" />
             <textarea name="locations" placeholder="Locations, one per line" rows={3} className="w-full rounded-2xl border border-white/20 bg-white/10 px-4 py-3 placeholder:text-white/50" />

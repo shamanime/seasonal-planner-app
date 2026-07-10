@@ -91,3 +91,30 @@ export async function signOut() {
   await supabase.auth.signOut();
   redirect("/");
 }
+
+export async function deleteFamilyCalendar(formData: FormData) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login?next=/dashboard");
+  }
+
+  const id = String(formData.get("calendar_id") ?? "");
+  const confirmed = formData.get("confirm_delete") === "on";
+
+  if (!id || !confirmed) {
+    redirect("/dashboard");
+  }
+
+  const { error } = await supabase.from("family_calendars").delete().eq("id", id).eq("owner_id", user.id);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  revalidatePath("/dashboard");
+  redirect("/dashboard");
+}

@@ -53,7 +53,7 @@ where id = (select id from auth.users where email = 'you@example.com');`}
       </section>
 
       {template ? (
-        <form action={updateTemplate} className="rounded-[2rem] bg-white/80 p-5 shadow-card">
+        <form action={updateTemplate} className="motion-card rounded-[2rem] bg-white/80 p-5 shadow-card">
           <input type="hidden" name="template_id" value={template.id} />
           <label className="block text-sm font-bold">
             Template title
@@ -77,7 +77,7 @@ where id = (select id from auth.users where email = 'you@example.com');`}
         <section className="mt-8 grid gap-6 lg:grid-cols-[1fr_20rem]">
           <div className="space-y-5">
             {activities?.map((activity) => (
-              <form key={activity.id} action={updateTemplateActivity} className="rounded-[1.75rem] bg-white/80 p-5 shadow-card">
+              <form key={activity.id} action={updateTemplateActivity} className="motion-card rounded-[1.75rem] bg-white/80 p-5 shadow-card">
                 <input type="hidden" name="activity_id" value={activity.id} />
                 <div className="grid gap-4 md:grid-cols-[1fr_12rem_8rem]">
                   <label className="block text-sm font-bold">
@@ -132,7 +132,7 @@ where id = (select id from auth.users where email = 'you@example.com');`}
             ))}
           </div>
 
-          <aside className="h-fit rounded-[1.75rem] bg-ink p-5 text-white shadow-card">
+          <aside className="motion-card h-fit rounded-[1.75rem] bg-ink p-5 text-white shadow-card">
             <h2 className="font-serif text-3xl font-semibold">Add template item</h2>
             <form action={addTemplateActivity} className="mt-5 space-y-4">
               <input type="hidden" name="template_id" value={template.id} />

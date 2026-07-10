@@ -5,7 +5,7 @@ export function ActivityCard({ activity }: { activity: Activity }) {
   const isInactive = status !== "planned";
 
   return (
-    <article className={`rounded-[1.75rem] border border-white/70 bg-white/78 p-5 shadow-card backdrop-blur ${isInactive ? "opacity-75" : ""}`}>
+    <article className={`motion-card rounded-[1.75rem] border border-white/70 bg-white/78 p-5 shadow-card backdrop-blur ${isInactive ? "opacity-75" : ""}`}>
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           {activity.date_label ? <p className="text-sm font-bold uppercase tracking-[0.18em] text-leaf">{activity.date_label}</p> : null}

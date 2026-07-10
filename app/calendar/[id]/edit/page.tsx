@@ -58,7 +58,7 @@ export default async function EditCalendarPage({ params }: { params: Promise<{ i
         </div>
       </section>
 
-      <form action={updateCalendar} className="grid gap-4 rounded-[2rem] bg-white/80 p-5 shadow-card md:grid-cols-2">
+      <form action={updateCalendar} className="motion-card grid gap-4 rounded-[2rem] bg-white/80 p-5 shadow-card md:grid-cols-2">
         <input type="hidden" name="calendar_id" value={calendar.id} />
         <label className="block text-sm font-bold">
           Calendar title
@@ -89,7 +89,7 @@ export default async function EditCalendarPage({ params }: { params: Promise<{ i
                 {season.emoji} {season.name}
               </h2>
               {seasonActivities.map((activity) => (
-                <form key={activity.id} action={updateActivity} className="rounded-[1.75rem] bg-white/80 p-5 shadow-card">
+                <form key={activity.id} action={updateActivity} className="motion-card rounded-[1.75rem] bg-white/80 p-5 shadow-card">
                   <input type="hidden" name="calendar_id" value={calendar.id} />
                   <input type="hidden" name="activity_id" value={activity.id} />
                   <div className="grid gap-4 md:grid-cols-[1fr_10rem]">
@@ -156,7 +156,7 @@ export default async function EditCalendarPage({ params }: { params: Promise<{ i
           ))}
         </div>
 
-        <aside className="h-fit rounded-[1.75rem] bg-ink p-5 text-white shadow-card">
+        <aside className="motion-card h-fit rounded-[1.75rem] bg-ink p-5 text-white shadow-card">
           <h2 className="font-serif text-3xl font-semibold">Add activity</h2>
           <form action={addActivity} className="mt-5 space-y-4">
             <input type="hidden" name="calendar_id" value={calendar.id} />

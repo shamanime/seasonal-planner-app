@@ -37,17 +37,17 @@ export default async function DashboardPage() {
         <section className="space-y-4">
           {calendars?.length ? (
             calendars.map((calendar) => (
-              <article key={calendar.id} className="rounded-[1.75rem] bg-white/80 p-5 shadow-card">
+              <article key={calendar.id} className="motion-card rounded-[1.75rem] bg-white/80 p-5 shadow-card">
                 <h2 className="font-serif text-3xl font-semibold">{calendar.title}</h2>
                 <p className="mt-2 text-sm text-ink/65">Share link: /c/{calendar.share_slug}</p>
                 <div className="mt-5 flex flex-wrap gap-3">
-                  <Link className="rounded-full bg-ink px-4 py-2 text-sm font-bold text-white" href={`/calendar/${calendar.id}/edit`}>
+                  <Link className="motion-soft rounded-full bg-ink px-4 py-2 text-sm font-bold text-white" href={`/calendar/${calendar.id}/edit`}>
                     Edit
                   </Link>
-                  <Link className="rounded-full bg-white px-4 py-2 text-sm font-bold shadow-sm" href={`/c/${calendar.share_slug}`}>
+                  <Link className="motion-soft rounded-full bg-white px-4 py-2 text-sm font-bold shadow-sm" href={`/c/${calendar.share_slug}`}>
                     Share view
                   </Link>
-                  <Link className="rounded-full bg-white px-4 py-2 text-sm font-bold shadow-sm" href={`/c/${calendar.share_slug}/kiosk`}>
+                  <Link className="motion-soft rounded-full bg-white px-4 py-2 text-sm font-bold shadow-sm" href={`/c/${calendar.share_slug}/kiosk`}>
                     Kiosk
                   </Link>
                 </div>
@@ -57,7 +57,7 @@ export default async function DashboardPage() {
               </article>
             ))
           ) : (
-            <div className="rounded-[1.75rem] bg-white/80 p-8 shadow-card">No family calendars yet. Create your first copy.</div>
+            <div className="motion-card rounded-[1.75rem] bg-white/80 p-8 shadow-card">No family calendars yet. Create your first copy.</div>
           )}
         </section>
 

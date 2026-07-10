@@ -38,7 +38,7 @@ export default async function KioskPage({ params }: { params: Promise<{ slug: st
         </div>
         <div className="mt-6 grid gap-6 xl:grid-cols-3">
           {groups.map(({ season, activities: seasonActivities }) => (
-            <section key={season.id} className="rounded-[2rem] bg-cream p-5 text-ink shadow-card">
+            <section key={season.id} className="motion-card rounded-[2rem] bg-cream p-5 text-ink shadow-card">
               <h2 className="font-serif text-4xl font-semibold">
                 {season.emoji} {season.name}
               </h2>
@@ -47,7 +47,7 @@ export default async function KioskPage({ params }: { params: Promise<{ slug: st
                   const status = getActivityStatus(activity.status);
 
                   return (
-                  <article key={activity.id} className={`rounded-[1.5rem] bg-white p-4 ${status !== "planned" ? "opacity-70" : ""}`}>
+                  <article key={activity.id} className={`motion-card rounded-[1.5rem] bg-white p-4 ${status !== "planned" ? "opacity-70" : ""}`}>
                     <p className="text-xs font-bold uppercase tracking-[0.18em] text-leaf">{activity.date_label}</p>
                     <div className="mt-2 flex items-start justify-between gap-3">
                       <h3 className="font-serif text-2xl font-semibold">

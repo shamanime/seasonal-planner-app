@@ -1,19 +1,19 @@
 "use server";
 
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { getAppUrl } from "@/lib/env";
 import { createClient } from "@/lib/supabase/server";
 
 export async function sendMagicLink(formData: FormData) {
   const email = String(formData.get("email") ?? "").trim();
   const next = String(formData.get("next") ?? "/dashboard");
-  const origin = (await headers()).get("origin") ?? "http://localhost:3000";
+  const appUrl = getAppUrl();
   const supabase = await createClient();
 
   const { error } = await supabase.auth.signInWithOtp({
     email,
     options: {
-      emailRedirectTo: `${origin}/auth/callback?next=${encodeURIComponent(next)}`,
+      emailRedirectTo: `${appUrl}/auth/callback?next=${encodeURIComponent(next)}`,
     },
   });
 

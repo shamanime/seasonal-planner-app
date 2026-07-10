@@ -44,9 +44,12 @@ mise run db:push
 6. Copy `.env.example` to `.env.local` and fill in your project values:
 
 ```bash
+APP_URL=http://localhost:3000
 NEXT_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-publishable-key
 ```
+
+Set `APP_URL=https://yurdomain.com` in the Vercel production environment. Preview environments can use their own URL when authentication is enabled there.
 
 7. In Supabase Dashboard, go to **Authentication > URL Configuration** and set:
 
@@ -62,7 +65,7 @@ http://localhost:3000/auth/callback
 mise run dev
 ```
 
-If Supabase env vars are not loading, run this non-secret check. It prints only whether each value is present and its character length:
+If environment variables are not loading, run this non-secret check. It prints only whether each value is present and its character length:
 
 ```bash
 mise run check-env

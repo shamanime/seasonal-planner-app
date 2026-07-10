@@ -6,3 +6,4 @@ dist/
 coverage/
 supabase/.temp/
 tsconfig.tsbuildinfo
+friction_log.md

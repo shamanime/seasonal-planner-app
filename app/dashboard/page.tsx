@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { cloneTemplate, signOut } from "@/app/actions";
+import { CopyShareLinkButton } from "@/components/copy-share-link-button";
 import { DeleteCalendarButton } from "@/components/delete-calendar-button";
 import { createClient } from "@/lib/supabase/server";
 
@@ -39,7 +40,10 @@ export default async function DashboardPage() {
             calendars.map((calendar) => (
               <article key={calendar.id} className="motion-card rounded-[1.75rem] bg-white/80 p-5 shadow-card">
                 <h2 className="font-serif text-3xl font-semibold">{calendar.title}</h2>
-                <p className="mt-2 text-sm text-ink/65">Share link: /c/{calendar.share_slug}</p>
+                <div className="mt-2 flex items-center gap-2 text-sm text-ink/65">
+                  <p className="break-all">Share link: /c/{calendar.share_slug}</p>
+                  <CopyShareLinkButton path={`/c/${calendar.share_slug}`} />
+                </div>
                 <div className="mt-5 flex flex-wrap gap-3">
                   <Link className="motion-soft rounded-full bg-ink px-4 py-2 text-sm font-bold text-white" href={`/calendar/${calendar.id}/edit`}>
                     Edit

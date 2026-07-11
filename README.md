@@ -49,7 +49,7 @@ NEXT_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-publishable-key
 ```
 
-Set `APP_URL=https://yurdomain.com` in the Vercel production environment. Preview environments can use their own URL when authentication is enabled there.
+Set `APP_URL=https://yourdomain.com` in the Vercel production environment. Plausible automatically uses the hostname from `APP_URL`, which must match the site configured in Plausible. The tracker ignores localhost by default. Preview environments can use their own URL when authentication is enabled there.
 
 7. In Supabase Dashboard, go to **Authentication > URL Configuration** and set:
 

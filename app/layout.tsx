@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter, Lora } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
+import { PlausibleAnalytics } from "@/components/plausible-analytics";
+import { getAppUrl } from "@/lib/env";
 import { createClient } from "@/lib/supabase/server";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
@@ -21,6 +23,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
   return (
     <html lang="en" className={`${inter.variable} ${lora.variable}`}>
       <body className="font-sans antialiased">
+        <PlausibleAnalytics domain={new URL(getAppUrl()).hostname} />
         <header className="no-print mx-auto flex max-w-6xl items-center justify-between px-5 py-5">
           <Link href="/" className="font-serif text-xl font-semibold tracking-tight text-ink">
             Seasonal Activity Calendar

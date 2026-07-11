@@ -5,13 +5,10 @@ import { createClient } from "@/lib/supabase/server";
 export default async function KioskPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const supabase = await createClient();
-  const { data: calendar } = await supabase
-    .from("family_calendars")
-    .select("id, title, kiosk_enabled, is_public")
-    .eq("share_slug", slug)
-    .eq("is_public", true)
-    .eq("kiosk_enabled", true)
+  const { data: calendarData } = await supabase
+    .rpc("get_shared_calendar", { p_slug: slug, p_require_kiosk: true })
     .single();
+  const calendar = calendarData as { id: string; title: string } | null;
 
   if (!calendar) {
     notFound();
@@ -19,12 +16,7 @@ export default async function KioskPage({ params }: { params: Promise<{ slug: st
 
   const [{ data: seasons }, { data: activities }] = await Promise.all([
     supabase.from("seasons").select("id, name, emoji, sort_order").order("sort_order"),
-    supabase
-      .from("family_activities")
-      .select("id, season_id, title, date_label, description, notes, locations, tags, sort_order, is_favorite, status")
-      .eq("calendar_id", calendar.id)
-      .eq("is_hidden", false)
-      .order("sort_order"),
+    supabase.rpc("get_shared_activities", { p_slug: slug }),
   ]);
 
   const groups = groupActivitiesBySeason((seasons ?? []) as Season[], (activities ?? []) as Activity[]);

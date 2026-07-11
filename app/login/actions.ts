@@ -6,7 +6,8 @@ import { createClient } from "@/lib/supabase/server";
 
 export async function sendMagicLink(formData: FormData) {
   const email = String(formData.get("email") ?? "").trim();
-  const next = String(formData.get("next") ?? "/dashboard");
+  const requestedNext = String(formData.get("next") ?? "/dashboard");
+  const next = requestedNext.startsWith("/") && !requestedNext.startsWith("//") ? requestedNext : "/dashboard";
   const appUrl = getAppUrl();
   const supabase = await createClient();
 

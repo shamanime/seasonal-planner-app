@@ -1,6 +1,10 @@
 import { sendMagicLink } from "./actions";
 
-export default async function LoginPage({ searchParams }: { searchParams: Promise<{ sent?: string; error?: string; next?: string }> }) {
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ sent?: string; error?: string; next?: string }>;
+}) {
   const params = await searchParams;
 
   return (
@@ -9,8 +13,14 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
         <p className="text-sm font-bold uppercase tracking-[0.24em] text-leaf">Passwordless sign in</p>
         <h1 className="mt-3 font-serif text-4xl font-semibold">Check your email, then start planning.</h1>
         <p className="mt-4 leading-7 text-ink/70">Enter your email and Supabase Auth will send a magic link.</p>
-        {params.sent ? <p className="mt-5 rounded-2xl bg-skywash px-4 py-3 text-sm font-bold">Magic link sent. Open it on this device.</p> : null}
-        {params.error ? <p className="mt-5 rounded-2xl bg-red-100 px-4 py-3 text-sm font-bold text-red-800">{params.error}</p> : null}
+        {params.sent ? (
+          <p className="mt-5 rounded-2xl bg-skywash px-4 py-3 text-sm font-bold">
+            Magic link sent. Open it on this device.
+          </p>
+        ) : null}
+        {params.error ? (
+          <p className="mt-5 rounded-2xl bg-red-100 px-4 py-3 text-sm font-bold text-red-800">{params.error}</p>
+        ) : null}
         <form action={sendMagicLink} className="mt-6 space-y-4">
           <input type="hidden" name="next" value={params.next ?? "/dashboard"} />
           <label className="block text-sm font-bold" htmlFor="email">

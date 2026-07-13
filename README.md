@@ -79,6 +79,16 @@ A Supabase dogfooding app for publishing a curated seasonal activity calendar, l
 
    Use `mise run test:watch` while developing.
 
+   Format supported project files with:
+
+   ```bash
+   mise run format
+   ```
+
+   A pre-commit hook formats supported staged files automatically. GitHub
+   Actions also runs `mise run format:check` to prevent unformatted changes
+   from being merged.
+
    Run the browser integration test with Docker running:
 
    ```bash

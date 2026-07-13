@@ -84,6 +84,6 @@ test("a family can clone, customize, and navigate its calendar", async ({ page }
   await expect(page.locator(`input[value="${activityTitle}"]`)).toBeVisible();
 
   await page.getByRole("link", { name: "Share view" }).first().click();
-  await expect(page).toHaveURL(/\/c\/[a-z0-9-]+$/);
+  await expect(page).toHaveURL(/\/c\/[a-z0-9-]+-[A-Za-z0-9_-]{16}$/);
   await expect(page.getByText(activityTitle)).toBeVisible();
 });

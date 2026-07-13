@@ -9,6 +9,7 @@ const config: Config = {
         ink: "#2b241c",
         leaf: "#557a46",
         peach: "#f2a36b",
+        terracotta: "#b85f3d",
         skywash: "#d8eef2",
       },
       fontFamily: {

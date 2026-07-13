@@ -16,9 +16,143 @@ html {
 body {
   min-height: 100vh;
   background:
-    radial-gradient(circle at top left, rgba(242, 163, 107, 0.22), transparent 34rem),
-    linear-gradient(135deg, #fff8ec 0%, #f7efe2 48%, #d8eef2 100%);
+    radial-gradient(circle at top left, rgba(242, 163, 107, 0.24), transparent 34rem),
+    linear-gradient(145deg, #fff9ef 0%, #f8f0e3 55%, #e5f2ee 100%);
   color: #2b241c;
+}
+
+.family-moment {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: 1px solid rgba(85, 122, 70, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.58);
+  padding: 0.45rem 0.75rem;
+  color: rgba(43, 36, 28, 0.76);
+  font-size: 0.82rem;
+  font-weight: 650;
+  box-shadow: 0 6px 18px rgba(43, 36, 28, 0.05);
+}
+
+.calendar-intro,
+.shared-calendar-hero {
+  background:
+    radial-gradient(circle at 90% 10%, rgba(242, 163, 107, 0.22), transparent 16rem),
+    linear-gradient(120deg, #2b241c 0%, #3f4933 100%);
+}
+
+.shared-calendar-hero {
+  position: relative;
+}
+
+.shared-calendar-hero::after {
+  position: absolute;
+  right: -2rem;
+  bottom: -4rem;
+  width: 14rem;
+  height: 14rem;
+  border: 2.5rem solid rgba(255, 255, 255, 0.045);
+  border-radius: 999px;
+  content: "";
+  pointer-events: none;
+}
+
+.season-theme {
+  --season-accent: #557a46;
+  --season-soft: #eef4e8;
+}
+
+.season-group {
+  margin-inline: -1.25rem;
+  border-radius: 2.5rem;
+  padding: 1.25rem;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--season-soft) 74%, transparent), transparent 72%);
+}
+
+.season-theme[data-season="spring"] {
+  --season-accent: #688857;
+  --season-soft: #e9f2e3;
+}
+
+.season-theme[data-season="summer"] {
+  --season-accent: #d5962f;
+  --season-soft: #fff0c9;
+}
+
+.season-theme[data-season="fall"] {
+  --season-accent: #b85f3d;
+  --season-soft: #f8e2d7;
+}
+
+.season-theme[data-season="winter"] {
+  --season-accent: #5f8798;
+  --season-soft: #dfedf2;
+}
+
+.season-heading {
+  color: #2b241c;
+}
+
+.season-icon {
+  display: grid;
+  width: 3.5rem;
+  height: 3.5rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--season-accent) 24%, white);
+  border-radius: 1.15rem;
+  background: color-mix(in srgb, var(--season-soft) 76%, white);
+  font-size: 1.65rem;
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--season-accent) 13%, transparent);
+  transform: rotate(-3deg);
+}
+
+.season-kicker {
+  color: var(--season-accent);
+}
+
+.season-group .activity-card {
+  border-top: 3px solid color-mix(in srgb, var(--season-accent) 72%, white);
+}
+
+.activity-date {
+  color: var(--season-accent, #557a46);
+}
+
+.activity-note {
+  background: var(--season-soft, #fff8ec);
+}
+
+.activity-tag {
+  background: color-mix(in srgb, var(--season-soft, #d8eef2) 82%, white);
+}
+
+.kiosk-shell {
+  background:
+    radial-gradient(circle at 12% 8%, rgba(242, 163, 107, 0.12), transparent 28rem),
+    linear-gradient(145deg, #211c17 0%, #2b241c 58%, #263128 100%);
+}
+
+.kiosk-hero {
+  background:
+    radial-gradient(circle at 92% 20%, rgba(242, 163, 107, 0.2), transparent 18rem),
+    linear-gradient(120deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.06));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.kiosk-season-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
+}
+
+.kiosk-season {
+  background: linear-gradient(155deg, color-mix(in srgb, var(--season-soft) 88%, white), #fff9ef);
+  border-top: 4px solid var(--season-accent);
+}
+
+.kiosk-activity {
+  border-left: 3px solid color-mix(in srgb, var(--season-accent) 66%, white);
+  box-shadow: 0 10px 26px color-mix(in srgb, var(--season-accent) 10%, transparent);
 }
 
 input,

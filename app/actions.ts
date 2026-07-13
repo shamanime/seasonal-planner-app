@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { slugify } from "@/lib/calendar";
+import { generateShareToken } from "@/lib/share-token";
 
 export async function cloneTemplate(formData: FormData) {
   const supabase = await createClient();
@@ -18,7 +19,7 @@ export async function cloneTemplate(formData: FormData) {
   const templateId = String(formData.get("template_id") ?? "");
   const familyName = String(formData.get("family_name") ?? "").trim();
   const title = familyName ? `${familyName} Seasonal Activity Calendar` : "My Seasonal Activity Calendar";
-  const shareSlug = `${slugify(title) || "calendar"}-${crypto.randomUUID().slice(0, 8)}`;
+  const shareSlug = `${slugify(title) || "calendar"}-${generateShareToken()}`;
 
   const { data: calendarId, error } = await supabase.rpc("clone_calendar_from_template", {
     p_template_id: templateId,

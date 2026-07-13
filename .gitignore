@@ -1,7 +1,8 @@
 .next/
 node_modules/
-.env.local
-.env*.local
+.env*
+!.env.example
+.pi-subagents/
 dist/
 coverage/
 playwright-report/

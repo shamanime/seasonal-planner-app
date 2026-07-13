@@ -1,12 +1,11 @@
 import { NextResponse } from "next/server";
+import { getSafeRedirectPath } from "@/lib/redirect";
 import { createClient } from "@/lib/supabase/server";
 
 export async function GET(request: Request) {
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get("code");
-  const requestedNext = requestUrl.searchParams.get("next") ?? "/dashboard";
-  // Only allow same-site paths. Protocol-relative URLs (//example.com) are external too.
-  const next = requestedNext.startsWith("/") && !requestedNext.startsWith("//") ? requestedNext : "/dashboard";
+  const next = getSafeRedirectPath(requestUrl.searchParams.get("next"));
 
   if (code) {
     const supabase = await createClient();

@@ -6,14 +6,16 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const supabase = await createClient();
   const { data: calendar } = await supabase
-    .from("family_calendars")
+    .rpc("get_shared_calendar", { p_slug: slug, p_require_kiosk: false })
     .select("title")
-    .eq("share_slug", slug)
-    .eq("is_public", true)
     .single();
 
   return {
     title: calendar?.title ?? "Shared Seasonal Calendar",
+    robots: {
+      index: false,
+      follow: false,
+    },
   };
 }
 

@@ -2,12 +2,12 @@
 
 import { redirect } from "next/navigation";
 import { getAppUrl } from "@/lib/env";
+import { getSafeRedirectPath } from "@/lib/redirect";
 import { createClient } from "@/lib/supabase/server";
 
 export async function sendMagicLink(formData: FormData) {
   const email = String(formData.get("email") ?? "").trim();
-  const requestedNext = String(formData.get("next") ?? "/dashboard");
-  const next = requestedNext.startsWith("/") && !requestedNext.startsWith("//") ? requestedNext : "/dashboard";
+  const next = getSafeRedirectPath(String(formData.get("next") ?? "/dashboard"));
   const appUrl = getAppUrl();
   const supabase = await createClient();
 
@@ -19,7 +19,9 @@ export async function sendMagicLink(formData: FormData) {
   });
 
   if (error) {
-    redirect(`/login?error=${encodeURIComponent(error.message)}&next=${encodeURIComponent(next)}`);
+    redirect(
+      `/login?error=${encodeURIComponent("Unable to send a magic link. Please try again.")}&next=${encodeURIComponent(next)}`,
+    );
   }
 
   redirect(`/login?sent=1&next=${encodeURIComponent(next)}`);

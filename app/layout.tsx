@@ -25,7 +25,11 @@ export default async function RootLayout({
 	} = await supabase.auth.getUser();
 
 	return (
-		<html lang="en" className={`${inter.variable} ${lora.variable}`}>
+		<html
+			lang="en"
+			className={`${inter.variable} ${lora.variable}`}
+			data-scroll-behavior="smooth"
+		>
 			<body className="flex min-h-screen flex-col font-sans antialiased">
 				<PlausibleAnalytics domain={new URL(getAppUrl()).hostname} />
 				<header className="no-print mx-auto flex w-full max-w-6xl items-center justify-between px-5 py-5">

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ActivityCard } from "@/components/activity-card";
 import { PrintCalendarButton } from "@/components/print-calendar-button";
+import { PointerGlowSection } from "@/components/pointer-glow-section";
 import { groupActivitiesBySeason, type Activity, type Season } from "@/lib/calendar";
 import { createClient } from "@/lib/supabase/server";
 
@@ -34,7 +35,7 @@ export default async function SharedCalendarPage({ params }: { params: Promise<{
 
   return (
     <main className="shared-calendar-page mx-auto max-w-6xl px-5 pb-16">
-      <section className="shared-calendar-hero my-10 overflow-hidden rounded-[2.5rem] p-6 text-white shadow-card md:p-10">
+      <PointerGlowSection className="shared-calendar-hero pointer-glow-surface my-10 overflow-hidden rounded-[2.5rem] p-6 text-white shadow-card md:p-10">
         <p className="text-sm font-bold uppercase tracking-[0.24em] text-peach">A calendar made for sharing</p>
         <h1 className="mt-3 max-w-4xl font-serif text-5xl font-semibold leading-tight md:text-6xl">{calendar.title}</h1>
         <p className="mt-4 max-w-2xl text-lg leading-8 text-white/80">
@@ -52,9 +53,12 @@ export default async function SharedCalendarPage({ params }: { params: Promise<{
         <p className="no-print mt-3 text-xs text-white/65">
           For a clean PDF, turn off “Headers and footers” in the print dialog.
         </p>
-      </section>
+      </PointerGlowSection>
       {!user ? (
-        <aside className="calendar-intro no-print mb-10 rounded-[2rem] p-6 text-white shadow-card md:flex md:items-center md:justify-between md:gap-8 md:p-8">
+        <PointerGlowSection
+          as="aside"
+          className="calendar-intro pointer-glow-surface no-print mb-10 overflow-hidden rounded-[2rem] p-6 text-white shadow-card md:flex md:items-center md:justify-between md:gap-8 md:p-8"
+        >
           <div>
             <p className="text-sm font-bold uppercase tracking-[0.2em] text-peach">Plan your own seasons</p>
             <h2 className="mt-3 font-serif text-3xl font-semibold">Create a calendar your family can make its own.</h2>
@@ -69,7 +73,7 @@ export default async function SharedCalendarPage({ params }: { params: Promise<{
           >
             Make a family calendar
           </Link>
-        </aside>
+        </PointerGlowSection>
       ) : null}
       <section className="shared-calendar-seasons space-y-10">
         {groups.map(({ season, activities: seasonActivities }) => (

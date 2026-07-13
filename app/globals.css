@@ -35,19 +35,54 @@ body {
   box-shadow: 0 6px 18px rgba(43, 36, 28, 0.05);
 }
 
-.calendar-intro,
-.shared-calendar-hero {
+.calendar-intro {
   background:
     radial-gradient(circle at 90% 10%, rgba(242, 163, 107, 0.22), transparent 16rem),
     linear-gradient(120deg, #2b241c 0%, #3f4933 100%);
 }
 
 .shared-calendar-hero {
+  background: linear-gradient(120deg, #2b241c 0%, #3f4933 100%);
+}
+
+.calendar-intro.pointer-glow-surface {
+  background: linear-gradient(120deg, #2b241c 0%, #3f4933 100%);
+}
+
+.pointer-glow-surface {
   position: relative;
+  isolation: isolate;
+}
+
+.pointer-glow-surface > :not(.pointer-glow-orb) {
+  position: relative;
+  z-index: 1;
+}
+
+.pointer-glow-orb {
+  position: absolute;
+  z-index: 0;
+  top: 10%;
+  left: 90%;
+  width: 32rem;
+  height: 32rem;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(242, 163, 107, 0.28), rgba(242, 163, 107, 0.08) 38%, transparent 70%);
+  pointer-events: none;
+  transform: translate3d(0, 0, 0) translate(-50%, -50%);
+  contain: layout paint style;
+  will-change: transform;
+}
+
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .pointer-glow-orb {
+    display: none;
+  }
 }
 
 .shared-calendar-hero::after {
   position: absolute;
+  z-index: 0;
   right: -2rem;
   bottom: -4rem;
   width: 14rem;
@@ -275,11 +310,12 @@ dialog::backdrop {
     color: #2b241c !important;
   }
 
-  .shared-calendar-hero::after {
+  .shared-calendar-hero::after,
+  .pointer-glow-orb {
     display: none;
   }
 
-  .shared-calendar-hero > p:first-child {
+  .shared-calendar-hero > p:first-of-type {
     color: #557a46 !important;
     font-size: 7pt !important;
     letter-spacing: 0.18em !important;

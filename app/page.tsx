@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ActivityCard } from "@/components/activity-card";
+import { PointerGlowSection } from "@/components/pointer-glow-section";
 import { cloneTemplate } from "@/app/actions";
 import { groupActivitiesBySeason, type Activity, type Season } from "@/lib/calendar";
 import { createClient } from "@/lib/supabase/server";
@@ -120,11 +121,11 @@ export default async function Home() {
 
       <section id="calendar" className="space-y-10">
         {template ? (
-          <div className="calendar-intro rounded-[2rem] p-6 text-white shadow-card md:p-8">
+          <PointerGlowSection className="calendar-intro pointer-glow-surface overflow-hidden rounded-[2rem] p-6 text-white shadow-card md:p-8">
             <p className="text-sm font-bold uppercase tracking-[0.24em] text-peach">Your year of family time</p>
             <h2 className="mt-3 font-serif text-4xl font-semibold">{template.title}</h2>
             <p className="mt-3 max-w-3xl text-white/80">{template.description}</p>
-          </div>
+          </PointerGlowSection>
         ) : (
           <div className="rounded-[2rem] bg-white/80 p-8 shadow-card">
             Run `supabase/schema.sql` to seed the first calendar template.

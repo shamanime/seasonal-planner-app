@@ -18,8 +18,17 @@ function run(command, args, options = {}) {
 	return result.stdout ?? "";
 }
 
-run("npm", ["exec", "--", "playwright", "install", "chromium"]);
-run("npm", ["exec", "--", "supabase", "start"]);
+if (!process.env.CI) {
+	run("npm", ["exec", "--", "playwright", "install", "chromium"]);
+}
+run("npm", [
+	"exec",
+	"--",
+	"supabase",
+	"start",
+	"--exclude",
+	"analytics,edge-runtime,functions,imgproxy,inbucket,meta,realtime,storage,studio,vector",
+]);
 
 const status = run("npm", ["exec", "--", "supabase", "status", "-o", "env"], {
 	capture: true,

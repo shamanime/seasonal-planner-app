@@ -33,7 +33,7 @@ export default async function SharedCalendarPage({ params }: { params: Promise<{
   const groups = groupActivitiesBySeason((seasons ?? []) as Season[], (activities ?? []) as Activity[]);
 
   return (
-    <main className="mx-auto max-w-6xl px-5 pb-16">
+    <main className="shared-calendar-page mx-auto max-w-6xl px-5 pb-16">
       <section className="shared-calendar-hero my-10 overflow-hidden rounded-[2.5rem] p-6 text-white shadow-card md:p-10">
         <p className="text-sm font-bold uppercase tracking-[0.24em] text-peach">A calendar made for sharing</p>
         <h1 className="mt-3 max-w-4xl font-serif text-5xl font-semibold leading-tight md:text-6xl">{calendar.title}</h1>
@@ -49,6 +49,9 @@ export default async function SharedCalendarPage({ params }: { params: Promise<{
           </Link>
           <PrintCalendarButton />
         </div>
+        <p className="no-print mt-3 text-xs text-white/65">
+          For a clean PDF, turn off “Headers and footers” in the print dialog.
+        </p>
       </section>
       {!user ? (
         <aside className="calendar-intro no-print mb-10 rounded-[2rem] p-6 text-white shadow-card md:flex md:items-center md:justify-between md:gap-8 md:p-8">
@@ -68,7 +71,7 @@ export default async function SharedCalendarPage({ params }: { params: Promise<{
           </Link>
         </aside>
       ) : null}
-      <section className="space-y-10">
+      <section className="shared-calendar-seasons space-y-10">
         {groups.map(({ season, activities: seasonActivities }) => (
           <div key={season.id} className="season-theme season-group space-y-5" data-season={season.name.toLowerCase()}>
             <div className="season-heading flex items-center gap-4">
@@ -80,7 +83,7 @@ export default async function SharedCalendarPage({ params }: { params: Promise<{
                 <h2 className="font-serif text-4xl font-semibold">{season.name}</h2>
               </div>
             </div>
-            <div className="grid gap-5 md:grid-cols-2">
+            <div className="season-activity-grid grid gap-5 md:grid-cols-2">
               {seasonActivities.map((activity) => (
                 <ActivityCard key={activity.id} activity={activity} />
               ))}

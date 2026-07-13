@@ -31,7 +31,22 @@ run = "npm exec -- next start"
 [tasks.lint]
 description = "Lint the application"
 depends = ["install"]
-run = "npm exec -- next lint"
+run = "npm run lint"
+
+[tasks.test]
+description = "Run the test suite"
+depends = ["install"]
+run = "npm test"
+
+[tasks."test:watch"]
+description = "Run tests in watch mode"
+depends = ["install"]
+run = "npm run test:watch"
+
+[tasks."test:e2e"]
+description = "Run browser integration tests (requires Docker)"
+depends = ["install"]
+run = "npm run test:e2e"
 
 [tasks.check-env]
 description = "Check that required environment variables are present"

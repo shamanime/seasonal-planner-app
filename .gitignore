@@ -4,6 +4,9 @@ node_modules/
 .env*.local
 dist/
 coverage/
+playwright-report/
+test-results/
 supabase/.temp/
+supabase/.branches/
 tsconfig.tsbuildinfo
 friction_log.md

@@ -23,6 +23,8 @@ export type Activity = {
 
 export type ActivityStatus = "planned" | "completed" | "skipped" | "expired";
 
+export const MAX_ACTIVITIES_PER_SEASON = 15;
+
 export const activityStatusLabels: Record<ActivityStatus, string> = {
   planned: "Planned",
   completed: "Done",

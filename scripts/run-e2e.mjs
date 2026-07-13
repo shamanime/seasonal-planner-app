@@ -27,7 +27,7 @@ run("npm", [
 	"supabase",
 	"start",
 	"--exclude",
-	"analytics,edge-runtime,functions,imgproxy,inbucket,meta,realtime,storage,studio,vector",
+	"edge-runtime,imgproxy,logflare,mailpit,postgres-meta,realtime,storage-api,studio,supavisor,vector",
 ]);
 
 const status = run("npm", ["exec", "--", "supabase", "status", "-o", "env"], {

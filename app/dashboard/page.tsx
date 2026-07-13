@@ -16,8 +16,18 @@ export default async function DashboardPage() {
   }
 
   const [{ data: calendars }, { data: template }, { data: quotaRows }] = await Promise.all([
-    supabase.from("family_calendars").select("id, title, family_name, share_slug, is_public, created_at").eq("owner_id", user.id).order("created_at", { ascending: false }),
-    supabase.from("calendar_templates").select("id, title").eq("is_published", true).order("created_at").limit(1).single(),
+    supabase
+      .from("family_calendars")
+      .select("id, title, family_name, share_slug, is_public, created_at")
+      .eq("owner_id", user.id)
+      .order("created_at", { ascending: false }),
+    supabase
+      .from("calendar_templates")
+      .select("id, title")
+      .eq("is_published", true)
+      .order("created_at")
+      .limit(1)
+      .single(),
     supabase.rpc("get_calendar_quota"),
   ]);
   const quota = quotaRows?.[0];
@@ -50,13 +60,22 @@ export default async function DashboardPage() {
                   <CopyShareLinkButton path={`/c/${calendar.share_slug}`} />
                 </div>
                 <div className="mt-5 flex flex-wrap gap-3">
-                  <Link className="motion-soft rounded-full bg-ink px-4 py-2 text-sm font-bold text-white" href={`/calendar/${calendar.id}/edit`}>
+                  <Link
+                    className="motion-soft rounded-full bg-ink px-4 py-2 text-sm font-bold text-white"
+                    href={`/calendar/${calendar.id}/edit`}
+                  >
                     Edit
                   </Link>
-                  <Link className="motion-soft rounded-full bg-white px-4 py-2 text-sm font-bold shadow-sm" href={`/c/${calendar.share_slug}`}>
+                  <Link
+                    className="motion-soft rounded-full bg-white px-4 py-2 text-sm font-bold shadow-sm"
+                    href={`/c/${calendar.share_slug}`}
+                  >
                     Share view
                   </Link>
-                  <Link className="motion-soft rounded-full bg-white px-4 py-2 text-sm font-bold shadow-sm" href={`/c/${calendar.share_slug}/kiosk`}>
+                  <Link
+                    className="motion-soft rounded-full bg-white px-4 py-2 text-sm font-bold shadow-sm"
+                    href={`/c/${calendar.share_slug}/kiosk`}
+                  >
                     Kiosk
                   </Link>
                 </div>
@@ -66,25 +85,39 @@ export default async function DashboardPage() {
               </article>
             ))
           ) : (
-            <div className="motion-card rounded-[1.75rem] bg-white/80 p-8 shadow-card">No seasonal calendars yet. Create your first copy.</div>
+            <div className="motion-card rounded-[1.75rem] bg-white/80 p-8 shadow-card">
+              No seasonal calendars yet. Create your first copy.
+            </div>
           )}
         </section>
 
         <aside className="rounded-[1.75rem] bg-ink p-5 text-white shadow-card">
           <h2 className="font-serif text-3xl font-semibold">Start fresh</h2>
-          <p className="mt-3 text-sm leading-6 text-white/72">Clone the public template and customize it for another season, trip, or household.</p>
+          <p className="mt-3 text-sm leading-6 text-white/72">
+            Clone the public template and customize it for another season, trip, or household.
+          </p>
           <p className="mt-4 text-sm font-bold" aria-live="polite">
             {calendarCount} of {calendarLimit} calendar slots used
           </p>
           {!hasCalendarSlot && quota?.next_slot_at ? (
             <p className="mt-2 text-sm leading-6 text-peach">
-              Your next slot unlocks on {new Intl.DateTimeFormat("en", { dateStyle: "long" }).format(new Date(quota.next_slot_at))}.
+              Your next slot unlocks on{" "}
+              {new Intl.DateTimeFormat("en", { dateStyle: "long" }).format(new Date(quota.next_slot_at))}.
             </p>
           ) : null}
           <form action={cloneTemplate} className="mt-5 space-y-3">
             <input type="hidden" name="template_id" value={template?.id ?? ""} />
-            <input disabled={!hasCalendarSlot} name="family_name" placeholder="Family name" className="w-full rounded-2xl border border-white/20 bg-white/10 px-4 py-3 outline-none placeholder:text-white/50 disabled:cursor-not-allowed disabled:opacity-50" />
-            <button disabled={!hasCalendarSlot} className="w-full rounded-2xl bg-peach px-4 py-3 font-bold text-ink disabled:cursor-not-allowed disabled:opacity-50" type="submit">
+            <input
+              disabled={!hasCalendarSlot}
+              name="family_name"
+              placeholder="Family name"
+              className="w-full rounded-2xl border border-white/20 bg-white/10 px-4 py-3 outline-none placeholder:text-white/50 disabled:cursor-not-allowed disabled:opacity-50"
+            />
+            <button
+              disabled={!hasCalendarSlot}
+              className="w-full rounded-2xl bg-peach px-4 py-3 font-bold text-ink disabled:cursor-not-allowed disabled:opacity-50"
+              type="submit"
+            >
               {hasCalendarSlot ? "Clone template" : "Calendar limit reached"}
             </button>
           </form>

@@ -33,6 +33,16 @@ description = "Lint the application"
 depends = ["install"]
 run = "npm run lint"
 
+[tasks.format]
+description = "Format supported project files"
+depends = ["install"]
+run = "npm run format"
+
+[tasks."format:check"]
+description = "Check that supported project files are formatted"
+depends = ["install"]
+run = "npm run format:check"
+
 [tasks.test]
 description = "Run the test suite"
 depends = ["install"]

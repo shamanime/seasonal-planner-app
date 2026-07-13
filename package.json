@@ -11,10 +11,16 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
     "test": "vitest run",
     "test:db": "supabase test db",
     "test:watch": "vitest",
-    "test:e2e": "node scripts/run-e2e.mjs"
+    "test:e2e": "node scripts/run-e2e.mjs",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{css,html,js,json,jsx,md,mdx,mjs,ts,tsx,yaml,yml}": "prettier --write"
   },
   "dependencies": {
     "@plausible-analytics/tracker": "^0.4.5",
@@ -36,7 +42,10 @@
     "autoprefixer": "^10.5.2",
     "eslint": "^9.39.5",
     "eslint-config-next": "^16.2.10",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.8",
     "postcss": "^8.5.18",
+    "prettier": "^3.9.5",
     "supabase": "^2.109.1",
     "tailwindcss": "^4.3.2",
     "typescript": "^5.9.3",

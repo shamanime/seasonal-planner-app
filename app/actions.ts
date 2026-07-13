@@ -29,7 +29,9 @@ export async function cloneTemplate(formData: FormData) {
 
   if (error || !calendarId) {
     if (error?.message.includes("CALENDAR_LIMIT_REACHED")) {
-      throw new Error("You have reached your current calendar limit. Another slot unlocks on your next account anniversary.");
+      throw new Error(
+        "You have reached your current calendar limit. Another slot unlocks on your next account anniversary.",
+      );
     }
 
     throw new Error(error?.message ?? "Could not create seasonal calendar.");

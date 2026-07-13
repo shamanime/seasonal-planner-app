@@ -34,7 +34,12 @@ export function DeleteCalendarButton({ calendarId, title }: { calendarId: string
             This will permanently delete <span className="font-bold text-ink">{title}</span> and all of its activities.
           </p>
           <div className="mt-6 flex flex-wrap justify-end gap-3">
-            <button className="motion-soft rounded-full bg-white px-4 py-2 text-sm font-bold shadow-sm" type="button" onClick={() => dialogRef.current?.close()} disabled={isDeleting}>
+            <button
+              className="motion-soft rounded-full bg-white px-4 py-2 text-sm font-bold shadow-sm"
+              type="button"
+              onClick={() => dialogRef.current?.close()}
+              disabled={isDeleting}
+            >
               Cancel
             </button>
             <button

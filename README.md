@@ -12,76 +12,102 @@ A Supabase dogfooding app for publishing a curated seasonal activity calendar, l
 
 ## Local Setup
 
-1. Install [mise](https://mise.jdx.dev/), then install the pinned runtime and project dependencies:
+1. Install [mise](https://mise.jdx.dev/), then install the pinned runtime and
+   project dependencies:
 
-```bash
-mise install
-mise run setup
-```
+   ```bash
+   mise install
+   mise run setup
+   ```
 
-All project commands are defined as mise tasks. Run `mise tasks` to list them.
+   All project commands are defined as mise tasks. Run `mise tasks` to list
+   them.
 
-2. Create a Supabase project at https://supabase.com/dashboard.
+1. Create a Supabase project at <https://supabase.com/dashboard>.
 
-3. Log in to Supabase from the CLI:
+1. Log in to Supabase from the CLI:
 
-```bash
-mise run supabase:login
-```
+   ```bash
+   mise run supabase:login
+   ```
 
-4. Link this local project to your Supabase project:
+1. Link this local project to your Supabase project:
 
-```bash
-mise run supabase:link -- --project-ref your-project-ref
-```
+   ```bash
+   mise run supabase:link -- --project-ref your-project-ref
+   ```
 
-5. Push the migrations to Supabase:
+1. Push the migrations to Supabase:
 
-```bash
-mise run db:push
-```
+   ```bash
+   mise run db:push
+   ```
 
-6. Copy `.env.example` to `.env.local` and fill in your project values:
+1. Copy `.env.example` to `.env.local` and fill in your project values:
 
-```bash
-APP_URL=http://localhost:3000
-NEXT_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
-NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-publishable-key
-```
+   ```bash
+   APP_URL=http://localhost:3000
+   NEXT_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
+   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-publishable-key
+   ```
 
-Set `APP_URL=https://yourdomain.com` in the Vercel production environment. Plausible automatically uses the hostname from `APP_URL`, which must match the site configured in Plausible. The tracker ignores localhost by default. Preview environments can use their own URL when authentication is enabled there.
+   Set `APP_URL=https://yourdomain.com` in the Vercel production environment.
+   Plausible automatically uses the hostname from `APP_URL`, which must match
+   the site configured in Plausible. The tracker ignores localhost by default.
+   Preview environments can use their own URL when authentication is enabled
+   there.
 
-7. In Supabase Dashboard, go to **Authentication > URL Configuration** and set:
+1. In Supabase Dashboard, go to **Authentication > URL Configuration** and set:
 
-```txt
-Site URL: http://localhost:3000
-Redirect URLs:
-http://localhost:3000/auth/callback
-```
+   ```txt
+   Site URL: http://localhost:3000
+   Redirect URLs:
+   http://localhost:3000/auth/callback
+   ```
 
-8. Start the app:
+1. Start the app:
 
-```bash
-mise run dev
-```
+   ```bash
+   mise run dev
+   ```
 
-If environment variables are not loading, run this non-secret check. It prints only whether each value is present and its character length:
+   Run the unit test suite at any time with:
 
-```bash
-mise run check-env
-```
+   ```bash
+   mise run test
+   ```
 
-9. Sign in once at `/login` so your `profiles` row is created.
+   Use `mise run test:watch` while developing.
 
-10. Promote yourself to admin in the Supabase SQL editor:
+   Run the browser integration test with Docker running:
 
-```sql
-update public.profiles
-set role = 'admin'
-where id = (select id from auth.users where email = 'you@example.com');
-```
+   ```bash
+   mise run test:e2e
+   ```
 
-11. Visit `/admin` to edit the main public template.
+   This starts the local Supabase stack and verifies that a user can sign in,
+   clone a calendar, add an activity, and navigate between editor, dashboard,
+   and share views. Pull requests and pushes to `main` run both test suites in
+   GitHub Actions.
+
+   If environment variables are not loading, run this non-secret check. It
+   prints only whether each value is present and its character length:
+
+   ```bash
+   mise run check-env
+   ```
+
+1. Sign in once at `/login` so your `profiles` row is created.
+
+1. Promote yourself to admin in the Supabase SQL editor:
+
+   ```sql
+   update public.profiles
+   set role = 'admin'
+   where id = (select id from auth.users where email = 'you@example.com');
+   ```
+
+1. Visit `/admin` to edit the main public template.
 
 ## Schema Changes
 

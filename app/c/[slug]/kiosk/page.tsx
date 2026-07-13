@@ -28,18 +28,33 @@ export default async function KioskPage({ params }: { params: Promise<{ slug: st
   const groups = groupActivitiesBySeason((seasons ?? []) as Season[], (activities ?? []) as Activity[]);
 
   return (
-    <main className="min-h-screen bg-ink p-4 text-white md:p-8">
+    <main className="kiosk-shell min-h-screen p-4 text-white md:p-8">
       <section className="mx-auto max-w-7xl">
-        <div className="rounded-[2rem] bg-white/10 p-6 md:p-8">
-          <p className="text-sm font-bold uppercase tracking-[0.28em] text-peach">Kiosk view</p>
-          <h1 className="mt-3 font-serif text-5xl font-semibold md:text-7xl">{calendar.title}</h1>
+        <div className="kiosk-hero rounded-[2.25rem] p-6 shadow-card md:p-8">
+          <p className="text-sm font-bold uppercase tracking-[0.28em] text-peach">Family calendar · At a glance</p>
+          <h1 className="mt-3 max-w-5xl font-serif text-5xl font-semibold leading-tight md:text-7xl">
+            {calendar.title}
+          </h1>
+          <p className="mt-3 text-base text-white/70">
+            A year of favourite outings and traditions, ready for everyone to see.
+          </p>
         </div>
-        <div className="mt-6 grid gap-6 xl:grid-cols-3">
+        <div className="kiosk-season-grid mt-6 grid gap-6">
           {groups.map(({ season, activities: seasonActivities }) => (
-            <section key={season.id} className="motion-card rounded-[2rem] bg-cream p-5 text-ink shadow-card">
-              <h2 className="font-serif text-4xl font-semibold">
-                {season.emoji} {season.name}
-              </h2>
+            <section
+              key={season.id}
+              className="season-theme kiosk-season motion-card rounded-[2rem] p-5 text-ink shadow-card"
+              data-season={season.name.toLowerCase()}
+            >
+              <div className="flex items-center gap-3">
+                <span className="season-icon" aria-hidden="true">
+                  {season.emoji}
+                </span>
+                <div>
+                  <p className="season-kicker text-xs font-bold uppercase tracking-[0.18em]">Plans for</p>
+                  <h2 className="font-serif text-4xl font-semibold">{season.name}</h2>
+                </div>
+              </div>
               <div className="mt-5 space-y-4">
                 {seasonActivities.map((activity) => {
                   const status = getActivityStatus(activity.status);
@@ -47,9 +62,11 @@ export default async function KioskPage({ params }: { params: Promise<{ slug: st
                   return (
                     <article
                       key={activity.id}
-                      className={`motion-card rounded-[1.5rem] bg-white p-4 ${status !== "planned" ? "opacity-70" : ""}`}
+                      className={`kiosk-activity motion-card rounded-[1.5rem] bg-white/90 p-4 ${status !== "planned" ? "opacity-70" : ""}`}
                     >
-                      <p className="text-xs font-bold uppercase tracking-[0.18em] text-leaf">{activity.date_label}</p>
+                      <p className="activity-date text-xs font-bold uppercase tracking-[0.18em]">
+                        {activity.date_label}
+                      </p>
                       <div className="mt-2 flex items-start justify-between gap-3">
                         <h3 className="font-serif text-2xl font-semibold">
                           {activity.title}
@@ -62,10 +79,15 @@ export default async function KioskPage({ params }: { params: Promise<{ slug: st
                         ) : null}
                       </div>
                       {activity.notes?.[0] ? (
-                        <p className="mt-2 text-sm leading-6 text-ink/72">{activity.notes[0]}</p>
+                        <p className="activity-note mt-3 rounded-xl px-3 py-2 text-sm leading-6 text-ink/72">
+                          {activity.notes[0]}
+                        </p>
                       ) : null}
                       {activity.locations?.[0] ? (
-                        <p className="mt-3 text-sm font-bold">{activity.locations[0]}</p>
+                        <p className="mt-3 text-sm font-bold">
+                          <span aria-hidden="true">📍 </span>
+                          {activity.locations[0]}
+                        </p>
                       ) : null}
                     </article>
                   );

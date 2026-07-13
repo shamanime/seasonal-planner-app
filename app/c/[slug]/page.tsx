@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ActivityCard } from "@/components/activity-card";
+import { PrintCalendarButton } from "@/components/print-calendar-button";
+import { PointerGlowSection } from "@/components/pointer-glow-section";
 import { groupActivitiesBySeason, type Activity, type Season } from "@/lib/calendar";
 import { createClient } from "@/lib/supabase/server";
 
@@ -32,27 +34,31 @@ export default async function SharedCalendarPage({ params }: { params: Promise<{
   const groups = groupActivitiesBySeason((seasons ?? []) as Season[], (activities ?? []) as Activity[]);
 
   return (
-    <main className="mx-auto max-w-6xl px-5 pb-16">
-      <section className="py-10">
-        <p className="text-sm font-bold uppercase tracking-[0.24em] text-leaf">Shared seasonal calendar</p>
-        <h1 className="mt-3 font-serif text-5xl font-semibold md:text-6xl">{calendar.title}</h1>
-        <p className="mt-4 max-w-2xl text-lg leading-8 text-ink/70">
-          A simple seasonal plan for easy outings and family coordination.
+    <main className="shared-calendar-page mx-auto max-w-6xl px-5 pb-16">
+      <PointerGlowSection className="shared-calendar-hero pointer-glow-surface my-10 overflow-hidden rounded-[2.5rem] p-6 text-white shadow-card md:p-10">
+        <p className="text-sm font-bold uppercase tracking-[0.24em] text-peach">A calendar made for sharing</p>
+        <h1 className="mt-3 max-w-4xl font-serif text-5xl font-semibold leading-tight md:text-6xl">{calendar.title}</h1>
+        <p className="mt-4 max-w-2xl text-lg leading-8 text-white/80">
+          Favourite outings, seasonal traditions, and simple plans—all gathered in one place for the family.
         </p>
-        <div className="no-print mt-6 flex flex-wrap gap-3">
+        <div className="no-print mt-7 flex flex-wrap gap-3">
           <Link
             href={`/c/${calendar.share_slug}/kiosk`}
-            className="rounded-full bg-ink px-4 py-2 text-sm font-bold text-white"
+            className="rounded-full bg-leaf px-5 py-3 text-sm font-bold text-white shadow-sm hover:bg-white hover:text-ink"
           >
-            Kiosk mode
+            Open display mode
           </Link>
-          <span className="rounded-full bg-white px-4 py-2 text-sm font-bold shadow-card">
-            Print or save PDF from browser
-          </span>
+          <PrintCalendarButton />
         </div>
-      </section>
+        <p className="no-print mt-3 text-xs text-white/65">
+          For a clean PDF, turn off “Headers and footers” in the print dialog.
+        </p>
+      </PointerGlowSection>
       {!user ? (
-        <aside className="no-print mb-10 rounded-[2rem] bg-ink p-6 text-white shadow-card md:flex md:items-center md:justify-between md:gap-8 md:p-8">
+        <PointerGlowSection
+          as="aside"
+          className="calendar-intro pointer-glow-surface no-print mb-10 overflow-hidden rounded-[2rem] p-6 text-white shadow-card md:flex md:items-center md:justify-between md:gap-8 md:p-8"
+        >
           <div>
             <p className="text-sm font-bold uppercase tracking-[0.2em] text-peach">Plan your own seasons</p>
             <h2 className="mt-3 font-serif text-3xl font-semibold">Create a calendar your family can make its own.</h2>
@@ -63,19 +69,25 @@ export default async function SharedCalendarPage({ params }: { params: Promise<{
           </div>
           <Link
             href={`/login?next=${encodeURIComponent(`/c/${calendar.share_slug}`)}`}
-            className="mt-6 inline-flex shrink-0 rounded-full bg-peach px-5 py-3 text-sm font-bold text-ink hover:bg-white md:mt-0"
+            className="mt-6 inline-flex shrink-0 rounded-full bg-white px-5 py-3 text-sm font-bold text-ink hover:bg-peach md:mt-0"
           >
-            Create an account or sign in
+            Make a family calendar
           </Link>
-        </aside>
+        </PointerGlowSection>
       ) : null}
-      <section className="space-y-10">
+      <section className="shared-calendar-seasons space-y-10">
         {groups.map(({ season, activities: seasonActivities }) => (
-          <div key={season.id} className="space-y-5">
-            <h2 className="font-serif text-4xl font-semibold">
-              {season.emoji} {season.name}
-            </h2>
-            <div className="grid gap-5 md:grid-cols-2">
+          <div key={season.id} className="season-theme season-group space-y-5" data-season={season.name.toLowerCase()}>
+            <div className="season-heading flex items-center gap-4">
+              <span className="season-icon" aria-hidden="true">
+                {season.emoji}
+              </span>
+              <div>
+                <p className="season-kicker text-xs font-bold uppercase tracking-[0.2em]">Family plans for</p>
+                <h2 className="font-serif text-4xl font-semibold">{season.name}</h2>
+              </div>
+            </div>
+            <div className="season-activity-grid grid gap-5 md:grid-cols-2">
               {seasonActivities.map((activity) => (
                 <ActivityCard key={activity.id} activity={activity} />
               ))}

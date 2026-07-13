@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ActivityCard } from "@/components/activity-card";
+import { PointerGlowSection } from "@/components/pointer-glow-section";
 import { cloneTemplate } from "@/app/actions";
 import { groupActivitiesBySeason, type Activity, type Season } from "@/lib/calendar";
 import { createClient } from "@/lib/supabase/server";
@@ -41,18 +42,29 @@ export default async function Home() {
         <div>
           <p className="text-sm font-bold uppercase tracking-[0.24em] text-leaf">A seasonal guide for every family</p>
           <h1 className="mt-4 max-w-3xl font-serif text-5xl font-semibold leading-[1.02] text-ink md:text-7xl">
-            Seasonal plans you can actually use.
+            More good days, already planned.
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-ink/75">
-            Start with a curated seasonal activity calendar, then make a personal copy and tailor the activities,
-            locations, and notes to wherever your family lives.
+            Start with a year of simple family outings, cozy traditions, and little adventures—then make it yours with
+            the places and plans your family loves.
           </p>
+          <div className="mt-6 flex flex-wrap gap-2" aria-label="Ideas for every season">
+            <span className="family-moment">
+              <span aria-hidden="true">🌱</span> Little adventures
+            </span>
+            <span className="family-moment">
+              <span aria-hidden="true">🍓</span> Family favourites
+            </span>
+            <span className="family-moment">
+              <span aria-hidden="true">✨</span> Cozy traditions
+            </span>
+          </div>
           <div className="mt-8 flex flex-wrap gap-3">
             <a
               href="#calendar"
-              className="rounded-full bg-ink px-5 py-3 text-sm font-bold text-white shadow-card hover:bg-black"
+              className="rounded-full bg-leaf px-5 py-3 text-sm font-bold text-white shadow-card hover:bg-leaf/90"
             >
-              Browse the calendar
+              Explore family activities
             </a>
             {user ? (
               <Link
@@ -77,10 +89,10 @@ export default async function Home() {
           className="rounded-[2rem] border border-white/70 bg-white/80 p-6 shadow-card backdrop-blur"
         >
           <input type="hidden" name="template_id" value={template?.id ?? ""} />
-          <p className="text-sm font-bold uppercase tracking-[0.2em] text-peach">Make it yours</p>
-          <h2 className="mt-3 font-serif text-3xl font-semibold">Create your personal calendar</h2>
+          <p className="text-sm font-bold uppercase tracking-[0.2em] text-terracotta">Make it yours</p>
+          <h2 className="mt-3 font-serif text-3xl font-semibold">Create your family calendar</h2>
           <p className="mt-3 text-sm leading-6 text-ink/70">
-            Use this template as a starting point, then hide, edit, favorite, and add activities near you.
+            Begin with our ideas, then add your favourite places, hide what does not fit, and plan the year together.
           </p>
           {user && quota ? (
             <p className="mt-4 text-sm font-bold" aria-live="polite">
@@ -94,7 +106,7 @@ export default async function Home() {
             disabled={!hasCalendarSlot}
             id="family_name"
             name="family_name"
-            placeholder="The Smiths"
+            placeholder="e.g. The Parkers"
             className="mt-2 w-full rounded-2xl border border-ink/10 bg-white px-4 py-3 outline-none ring-leaf/30 focus:ring-4 disabled:cursor-not-allowed disabled:opacity-50"
           />
           <button
@@ -102,18 +114,18 @@ export default async function Home() {
             className="mt-5 w-full rounded-2xl bg-leaf px-5 py-3 font-bold text-white shadow-sm hover:bg-leaf/90 disabled:cursor-not-allowed disabled:opacity-50"
             type="submit"
           >
-            {!hasCalendarSlot ? "Calendar limit reached" : user ? "Clone & edit this calendar" : "Sign in and clone"}
+            {!hasCalendarSlot ? "Calendar limit reached" : user ? "Make this calendar ours" : "Sign in to make it ours"}
           </button>
         </form>
       </section>
 
       <section id="calendar" className="space-y-10">
         {template ? (
-          <div className="rounded-[2rem] bg-ink p-6 text-white shadow-card md:p-8">
-            <p className="text-sm font-bold uppercase tracking-[0.24em] text-peach">Template</p>
+          <PointerGlowSection className="calendar-intro pointer-glow-surface overflow-hidden rounded-[2rem] p-6 text-white shadow-card md:p-8">
+            <p className="text-sm font-bold uppercase tracking-[0.24em] text-peach">Your year of family time</p>
             <h2 className="mt-3 font-serif text-4xl font-semibold">{template.title}</h2>
-            <p className="mt-3 max-w-3xl text-white/75">{template.description}</p>
-          </div>
+            <p className="mt-3 max-w-3xl text-white/80">{template.description}</p>
+          </PointerGlowSection>
         ) : (
           <div className="rounded-[2rem] bg-white/80 p-8 shadow-card">
             Run `supabase/schema.sql` to seed the first calendar template.
@@ -121,11 +133,16 @@ export default async function Home() {
         )}
 
         {groups.map(({ season, activities: seasonActivities }) => (
-          <div key={season.id} className="space-y-5">
-            <h2 className="font-serif text-4xl font-semibold">
-              <span aria-hidden="true">{season.emoji} </span>
-              {season.name}
-            </h2>
+          <div key={season.id} className="season-theme season-group space-y-5" data-season={season.name.toLowerCase()}>
+            <div className="season-heading flex items-center gap-4">
+              <span className="season-icon" aria-hidden="true">
+                {season.emoji}
+              </span>
+              <div>
+                <p className="season-kicker text-xs font-bold uppercase tracking-[0.2em]">Ideas for the</p>
+                <h2 className="font-serif text-4xl font-semibold">{season.name}</h2>
+              </div>
+            </div>
             <div className="grid gap-5 md:grid-cols-2">
               {seasonActivities.map((activity) => (
                 <ActivityCard key={activity.id} activity={activity} />

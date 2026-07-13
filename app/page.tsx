@@ -30,6 +30,9 @@ export default async function Home() {
       : Promise.resolve({ data: [] }),
   ]);
 
+  const { data: quotaRows } = user ? await supabase.rpc("get_calendar_quota") : { data: null };
+  const quota = quotaRows?.[0];
+  const hasCalendarSlot = !quota || Number(quota.calendar_count) < Number(quota.calendar_limit);
   const groups = groupActivitiesBySeason((seasons ?? []) as Season[], (activities ?? []) as Activity[]);
 
   return (
@@ -66,17 +69,23 @@ export default async function Home() {
           <p className="mt-3 text-sm leading-6 text-ink/70">
             Use this template as a starting point, then hide, edit, favorite, and add activities near you.
           </p>
+          {user && quota ? (
+            <p className="mt-4 text-sm font-bold" aria-live="polite">
+              {Number(quota.calendar_count)} of {Number(quota.calendar_limit)} calendar slots used
+            </p>
+          ) : null}
           <label className="mt-5 block text-sm font-bold" htmlFor="family_name">
             Family name
           </label>
           <input
+            disabled={!hasCalendarSlot}
             id="family_name"
             name="family_name"
             placeholder="The Smiths"
-            className="mt-2 w-full rounded-2xl border border-ink/10 bg-white px-4 py-3 outline-none ring-leaf/30 focus:ring-4"
+            className="mt-2 w-full rounded-2xl border border-ink/10 bg-white px-4 py-3 outline-none ring-leaf/30 focus:ring-4 disabled:cursor-not-allowed disabled:opacity-50"
           />
-          <button className="mt-5 w-full rounded-2xl bg-leaf px-5 py-3 font-bold text-white shadow-sm hover:bg-leaf/90" type="submit">
-            {user ? "Clone & edit this calendar" : "Sign in and clone"}
+          <button disabled={!hasCalendarSlot} className="mt-5 w-full rounded-2xl bg-leaf px-5 py-3 font-bold text-white shadow-sm hover:bg-leaf/90 disabled:cursor-not-allowed disabled:opacity-50" type="submit">
+            {!hasCalendarSlot ? "Calendar limit reached" : user ? "Clone & edit this calendar" : "Sign in and clone"}
           </button>
         </form>
       </section>

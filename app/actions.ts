@@ -20,70 +20,23 @@ export async function cloneTemplate(formData: FormData) {
   const title = familyName ? `${familyName} Seasonal Activity Calendar` : "My Seasonal Activity Calendar";
   const shareSlug = `${slugify(title) || "calendar"}-${crypto.randomUUID().slice(0, 8)}`;
 
-  const { data: template, error: templateError } = await supabase
-    .from("calendar_templates")
-    .select("id, title")
-    .eq("id", templateId)
-    .eq("is_published", true)
-    .single();
+  const { data: calendarId, error } = await supabase.rpc("clone_calendar_from_template", {
+    p_template_id: templateId,
+    p_title: title,
+    p_family_name: familyName,
+    p_share_slug: shareSlug,
+  });
 
-  if (templateError || !template) {
-    throw new Error("Published template not found.");
-  }
-
-  const { data: calendar, error: calendarError } = await supabase
-    .from("family_calendars")
-    .insert({
-      owner_id: user.id,
-      template_id: template.id,
-      title,
-      family_name: familyName || null,
-      share_slug: shareSlug,
-      is_public: true,
-      kiosk_enabled: true,
-    })
-    .select("id")
-    .single();
-
-  if (calendarError || !calendar) {
-    throw new Error(calendarError?.message ?? "Could not create seasonal calendar.");
-  }
-
-  const { data: activities, error: activitiesError } = await supabase
-    .from("template_activities")
-    .select("id, season_id, title, date_label, description, notes, locations, tags, sort_order, is_featured")
-    .eq("template_id", template.id)
-    .eq("is_published", true)
-    .order("sort_order");
-
-  if (activitiesError) {
-    throw new Error(activitiesError.message);
-  }
-
-  if (activities?.length) {
-    const { error: insertError } = await supabase.from("family_activities").insert(
-      activities.map((activity) => ({
-        calendar_id: calendar.id,
-        source_activity_id: activity.id,
-        season_id: activity.season_id,
-        title: activity.title,
-        date_label: activity.date_label,
-        description: activity.description,
-        notes: activity.notes,
-        locations: activity.locations,
-        tags: activity.tags,
-        sort_order: activity.sort_order,
-        is_favorite: activity.is_featured,
-      })),
-    );
-
-    if (insertError) {
-      throw new Error(insertError.message);
+  if (error || !calendarId) {
+    if (error?.message.includes("CALENDAR_LIMIT_REACHED")) {
+      throw new Error("You have reached your current calendar limit. Another slot unlocks on your next account anniversary.");
     }
+
+    throw new Error(error?.message ?? "Could not create seasonal calendar.");
   }
 
   revalidatePath("/dashboard");
-  redirect(`/calendar/${calendar.id}/edit`);
+  redirect(`/calendar/${calendarId}/edit`);
 }
 
 export async function signOut() {

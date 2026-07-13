@@ -14,7 +14,7 @@ set
     share_slug
     = regexp_replace(share_slug, '-[0-9a-f]{8}$', '')
     || '-'
-    || translate(encode(gen_random_bytes(12), 'base64'), '+/', '-_')
+    || translate(encode(extensions.gen_random_bytes(12), 'base64'), '+/', '-_')
 where share_slug ~ '-[0-9a-f]{8}$';
 
 -- Bound user-controlled content at the database boundary so direct Data API
